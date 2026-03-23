@@ -5,27 +5,52 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-new-gr-c-s-check-loaded="8.935.0" data-gr-ext-installed="">
-    <div class="max-w-6xl">
-        <div class="header">
-            <div class="subtitle">LIFETEEN RETREAT</div>
-            <h1>UNPLUGGED</h1>
-            <!-- <div class="score">Points: <span id="score">0</span></div> -->
+    <div class="game-container">
+        <div class="leaderboard">
+            <h2>LEADERBOARD</h2>
+            <div id="leaderboardList" class="leaderboard-list"></div>
         </div>
+        
+        <div class="max-w-6xl">
+            <div class="header">
+                <div class="subtitle">LIFETEEN RETREAT</div>
+                <h1>UNPLUGGED</h1>
+                <!-- <div class="score">Points: <span id="score">0</span></div> -->
+            </div>
 
         <div class="game-board" id="gameBoard" style="--board-columns: 6;"><div class="category-header">COMPETE</div><div class="category-header">PHYSICAL ACTIVITY</div><div class="category-header">LAUGH</div><div class="category-header">FAITH RELATED QUESTIONS</div><div class="category-header">WRONG ANSWERS ONLY</div><div class="category-header">T-SWIFT OR THE BIBLE?</div><button class="box" data-id="0-0">100</button><button class="box" data-id="0-1">100</button><button class="box" data-id="0-2">100</button><button class="box" data-id="0-3">100</button><button class="box" data-id="0-4">100</button><button class="box" data-id="0-5">100</button><button class="box" data-id="1-0">200</button><button class="box" data-id="1-1">200</button><button class="box" data-id="1-2">200</button><button class="box" data-id="1-3">200</button><button class="box" data-id="1-4">200</button><button class="box" data-id="1-5">200</button><button class="box" data-id="2-0">300</button><button class="box" data-id="2-1">300</button><button class="box" data-id="2-2">300</button><button class="box" data-id="2-3">300</button><button class="box" data-id="2-4">300</button><button class="box" data-id="2-5">300</button><button class="box" data-id="3-0">400</button><button class="box" data-id="3-1">400</button><button class="box" data-id="3-2">400</button><button class="box" data-id="3-3">400</button><button class="box" data-id="3-4">400</button><button class="box" data-id="3-5">400</button><button class="box" data-id="4-0">500</button><button class="box" data-id="4-1">500</button><button class="box" data-id="4-2">500</button><button class="box" data-id="4-3">500</button><button class="box" data-id="4-4">500</button><button class="box" data-id="4-5">500</button></div>
+        </div>
     </div>
 
     <div class="modal" id="questionModal">
         <div class="modal-content">
-            <button class="close-btn" onclick="markRejected()">✕</button>
+            <button class="close-btn" onclick="closeModal()">✕</button>
             <div class="question" id="questionText"></div>
             <div class="decision-text">Small Group decided to...</div>
             <div class="challenge-image">
                 <img id="challengeImage" src="" alt="" style="display: none; max-width: 100%; border-radius: 8px;">
             </div>
+            <div class="group-selector">
+                <label for="groupNumber">Select Small Group:</label>
+                <select id="groupNumber" class="group-dropdown">
+                    <option value="">-- Select Group --</option>
+                    <option value="1">Group 1</option>
+                    <option value="2">Group 2</option>
+                    <option value="3">Group 3</option>
+                    <option value="4">Group 4</option>
+                    <option value="5">Group 5</option>
+                    <option value="6">Group 6</option>
+                    <option value="7">Group 7</option>
+                    <option value="8">Group 8</option>
+                    <option value="9">Group 9</option>
+                    <option value="10">Group 10</option>
+                    <option value="11">Group 11</option>
+                    <option value="12">Group 12</option>
+                </select>
+            </div>
             <div class="button-group">
                 <button class="btn-accept" onclick="markAccepted()">✓ Do It!</button>
-                <button class="btn-skip" onclick="markRejected()">✗ Skip It</button>
+                <button class="btn-skip" onclick="closeModal()">✗ Skip It</button>
             </div>
         </div>
     </div>
@@ -37,11 +62,11 @@
             {
                 name: "COMPETE",
                 challenges: [
-                    { value: 100, challenge: "Rock-paper-scissors tournament - fastest out of 3" },
-                    { value: 200, challenge: "Group staring contest - last person not laughing wins" },
+                    { value: 100, challenge: "GROUP VS GROUP: Rock-paper-scissors tournament - fastest out of 3" },
+                    { value: 200, challenge: "GROUP VS GROUP: Staring Contest" },
                     { value: 300, challenge: "Say 'unique' 10 times fast without messing up" },
-                    { value: 400, challenge: "Group charades - act out one word in 30 seconds" },
-                    { value: 500, challenge: "Counting game - count to 10 without repeating numbers" }
+                    { value: 400, challenge: "GROUP VS GROUP: Ninja Game" },
+                    { value: 500, challenge: "Hit the crispiest, loudest dap possible" }
                 ]
             },
             {
@@ -55,13 +80,13 @@
                 ]
             },
             {
-                name: "LAUGH",
+                name: "IMPRESSIONS",
                 challenges: [
-                    { value: 100, challenge: "Everyone does their silliest laugh for 10 seconds" },
-                    { value: 200, challenge: "Group makes the weirdest face they can" },
-                    { value: 300, challenge: "Tell a joke - group votes on funniest" },
-                    { value: 400, challenge: "Group does a funny group pose for photo" },
-                    { value: 500, challenge: "Improv - someone gives a word, group acts it out" }
+                    { value: 100, challenge: "A cat" },
+                    { value: 200, challenge: "Abby Hess" },
+                    { value: 300, challenge: "A cat that is doing mukbang" },
+                    { value: 400, challenge: "Mario & Luigi, but they're singing All I Want For Christmas is You" },
+                    { value: 500, challenge: "Mickey Mouse at the gym doing the bench press, and Goofy is cheering him on" }
                 ]
             },
             // {
@@ -88,10 +113,10 @@
                 name: "FAITH RELATED QUESTIONS",
                 challenges: [
                     { value: 100, challenge: "Who is this?", image: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Virgen_de_guadalupe1.jpg" },
-                    { value: 200, challenge: "Who are the four Gospel writers?" },
-                    { value: 300, challenge: "" },
-                    { value: 400, challenge: "" },
-                    { value: 500, challenge: "" },
+                    { value: 200, challenge: "Who is our current Pope?" },
+                    { value: 300, challenge: "Who are the four Gospel Writers?" },
+                    { value: 400, challenge: "What do we call when the bread and wine are turned into the Body and Blood of Jesus Christ?" },
+                    { value: 500, challenge: "What are the seven gifts of the Holy Spirit?" },
                 ]
             },
             // wRONG answers only category
@@ -101,11 +126,11 @@
             {
                 name: "WRONG ANSWERS ONLY",
                 challenges: [
-                        { value: 100, challenge: ""  },
+                        { value: 100, challenge: "What's 9 + 10?"  },
                         { value: 200, challenge: "What color is the square?", image: "https://diegocasillas.org/wp-content/uploads/2026/02/purple-square.png" }, // i can fix this now: fixed
-                        { value: 300, challenge: "What's doesn't this word say? UNPLUGGED" },
-                        { value: 400, challenge: "" },
-                        { value: 500, challenge: "" }
+                        { value: 300, challenge: "Who is our Youth Minister?" },
+                        { value: 400, challenge: "What comes after 66?" },
+                        { value: 500, challenge: "What doesn't this word say? UNPLUGGED" }
                 ]
             },
             {
@@ -123,19 +148,29 @@
 
         let gameState = {
             score: 0,
+            groupScores: {},
             used: new Set(),
             currentQuestion: null,
               answered: false,
               totalQuestions: 0
         };
 
+        // Initialize group scores
+        for (let i = 1; i <= 12; i++) {
+            gameState.groupScores[i] = 0;
+        }
+
         function initGame() {
             gameState.score = 0;
             gameState.used.clear();
             gameState.answered = false;
+            for (let i = 1; i <= 12; i++) {
+                gameState.groupScores[i] = 0;
+            }
             document.getElementById('gameOverScreen').innerHTML = '';
             createBoard();
             updateScore();
+            updateLeaderboard();
         }
 
         function createBoard() {
@@ -201,6 +236,7 @@
                 };
             gameState.answered = false;
             document.getElementById('questionText').textContent = gameState.currentQuestion.data.challenge;
+            document.getElementById('groupNumber').value = '';
             document.getElementById('questionModal').classList.add('active');
             document.getElementById('challengeImage').style.display = 'none';
             if (gameState.currentQuestion.data.image) {
@@ -212,9 +248,24 @@
 
         function markAccepted() {
             if (!gameState.currentQuestion) return;
+            
+            const groupSelect = document.getElementById('groupNumber');
+            const selectedGroup = groupSelect.value;
+            
+            if (!selectedGroup) {
+                alert('Please select a small group first!');
+                return;
+            }
+            
+            gameState.groupScores[selectedGroup] += gameState.currentQuestion.data.value;
             gameState.score += gameState.currentQuestion.data.value;
             updateScore();
             closeQuestion();
+        }
+
+        function closeModal() {
+            document.getElementById('questionModal').classList.remove('active');
+            gameState.currentQuestion = null;
         }
 
         function markRejected() {
@@ -240,7 +291,51 @@
         }
 
         function updateScore() {
-            document.getElementById('score').textContent = Math.max(0, gameState.score);
+            const scoreElement = document.getElementById('score');
+            if (scoreElement) {
+                scoreElement.textContent = Math.max(0, gameState.score);
+            }
+            updateLeaderboard();
+        }
+
+        function updateLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            
+            // Create array of groups with their scores
+            const groups = [];
+            for (let i = 1; i <= 12; i++) {
+                groups.push({
+                    number: i,
+                    score: gameState.groupScores[i] || 0
+                });
+            }
+            
+            // Sort by score descending
+            groups.sort((a, b) => b.score - a.score);
+            
+            // Generate HTML
+            leaderboardList.innerHTML = groups.map((group, index) => `
+                <div class="leaderboard-item ${index === 0 && group.score > 0 ? 'leader' : ''}" onclick="editGroupScore(${group.number})" title="Click to edit score">
+                    <span class="group-rank">${index + 1}</span>
+                    <span class="group-name">Group ${group.number}</span>
+                    <span class="group-score">${group.score}</span>
+                </div>
+            `).join('');
+        }
+
+        function editGroupScore(groupNumber) {
+            const currentScore = gameState.groupScores[groupNumber];
+            const newScore = prompt(`Edit score for Group ${groupNumber}:`, currentScore);
+            
+            if (newScore !== null) {
+                const parsedScore = parseInt(newScore);
+                if (!isNaN(parsedScore) && parsedScore >= 0) {
+                    gameState.groupScores[groupNumber] = parsedScore;
+                    updateLeaderboard();
+                } else {
+                    alert('Please enter a valid number (0 or greater)');
+                }
+            }
         }
 
         function endGame() {
