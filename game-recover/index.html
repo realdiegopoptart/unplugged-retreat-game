@@ -1,0 +1,262 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unplugged - Challenge Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-new-gr-c-s-check-loaded="8.935.0" data-gr-ext-installed="">
+    <div class="max-w-6xl">
+        <div class="header">
+            <div class="subtitle">LIFETEEN RETREAT</div>
+            <h1>UNPLUGGED</h1>
+            <!-- <div class="score">Points: <span id="score">0</span></div> -->
+        </div>
+
+        <div class="game-board" id="gameBoard" style="--board-columns: 6;"><div class="category-header">COMPETE</div><div class="category-header">PHYSICAL ACTIVITY</div><div class="category-header">LAUGH</div><div class="category-header">FAITH RELATED QUESTIONS</div><div class="category-header">WRONG ANSWERS ONLY</div><div class="category-header">T-SWIFT OR THE BIBLE?</div><button class="box" data-id="0-0">100</button><button class="box" data-id="0-1">100</button><button class="box" data-id="0-2">100</button><button class="box" data-id="0-3">100</button><button class="box" data-id="0-4">100</button><button class="box" data-id="0-5">100</button><button class="box" data-id="1-0">200</button><button class="box" data-id="1-1">200</button><button class="box" data-id="1-2">200</button><button class="box" data-id="1-3">200</button><button class="box" data-id="1-4">200</button><button class="box" data-id="1-5">200</button><button class="box" data-id="2-0">300</button><button class="box" data-id="2-1">300</button><button class="box" data-id="2-2">300</button><button class="box" data-id="2-3">300</button><button class="box" data-id="2-4">300</button><button class="box" data-id="2-5">300</button><button class="box" data-id="3-0">400</button><button class="box" data-id="3-1">400</button><button class="box" data-id="3-2">400</button><button class="box" data-id="3-3">400</button><button class="box" data-id="3-4">400</button><button class="box" data-id="3-5">400</button><button class="box" data-id="4-0">500</button><button class="box" data-id="4-1">500</button><button class="box" data-id="4-2">500</button><button class="box" data-id="4-3">500</button><button class="box" data-id="4-4">500</button><button class="box" data-id="4-5">500</button></div>
+    </div>
+
+    <div class="modal" id="questionModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="markRejected()">✕</button>
+            <div class="question" id="questionText"></div>
+            <div class="decision-text">Small Group decided to...</div>
+            <div class="challenge-image">
+                <img id="challengeImage" src="" alt="" style="display: none; max-width: 100%; border-radius: 8px;">
+            </div>
+            <div class="button-group">
+                <button class="btn-accept" onclick="markAccepted()">✓ Do It!</button>
+                <button class="btn-skip" onclick="markRejected()">✗ Skip It</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameOverScreen"></div>
+
+    <script>
+        const CATEGORIES = [
+            {
+                name: "COMPETE",
+                challenges: [
+                    { value: 100, challenge: "Rock-paper-scissors tournament - fastest out of 3" },
+                    { value: 200, challenge: "Group staring contest - last person not laughing wins" },
+                    { value: 300, challenge: "Say 'unique' 10 times fast without messing up" },
+                    { value: 400, challenge: "Group charades - act out one word in 30 seconds" },
+                    { value: 500, challenge: "Counting game - count to 10 without repeating numbers" }
+                ]
+            },
+            {
+                name: "PHYSICAL ACTIVITY",
+                challenges: [
+                    { value: 100, challenge: "Do 10 jumping jacks as a group" },
+                    { value: 200, challenge: "Hold a group plank for 20 seconds" },
+                    { value: 300, challenge: "Group does 5 burpees each" },
+                    { value: 400, challenge: "Run in place for 30 seconds together" },
+                    { value: 500, challenge: "Group wall sit - hold for 30 seconds" }
+                ]
+            },
+            {
+                name: "LAUGH",
+                challenges: [
+                    { value: 100, challenge: "Everyone does their silliest laugh for 10 seconds" },
+                    { value: 200, challenge: "Group makes the weirdest face they can" },
+                    { value: 300, challenge: "Tell a joke - group votes on funniest" },
+                    { value: 400, challenge: "Group does a funny group pose for photo" },
+                    { value: 500, challenge: "Improv - someone gives a word, group acts it out" }
+                ]
+            },
+            // {
+            //     name: "SERVE",
+            //     challenges: [
+            //         { value: 100, challenge: "Give each other genuine compliments (1 minute)" },
+            //         { value: 200, challenge: "Group huddle - everyone says something positive" },
+            //         { value: 300, challenge: "High five everyone in your group" },
+            //         { value: 400, challenge: "Group cheer - come up with a team chant" },
+            //         { value: 500, challenge: "Pray together as a group (1 minute)" }
+            //     ]
+            // },
+            // {
+            //     name: "FAITH",
+            //     challenges: [
+            //         { value: 100, challenge: "Group shares their name and favorite thing about Jesus" },
+            //         { value: 200, challenge: "Group creates a 10-second faith chant together" },
+            //         { value: 300, challenge: "Everyone shares one blessing they've received" },
+            //         { value: 400, challenge: "Group comes up with a prayer in your own words" },
+            //         { value: 500, challenge: "Group shares what they're praying for right now", image: "https://plus.unsplash.com/premium_photo-1710965560034-778eedc929ff?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YmVhdXRpZnVsJTIwcGljdHVyZXxlbnwwfHwwfHx8MA%3D%3D" },
+            //     ]
+            // },
+            {
+                name: "FAITH RELATED QUESTIONS",
+                challenges: [
+                    { value: 100, challenge: "Who is this?", image: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Virgen_de_guadalupe1.jpg" },
+                    { value: 200, challenge: "Who are the four Gospel writers?" },
+                    { value: 300, challenge: "" },
+                    { value: 400, challenge: "" },
+                    { value: 500, challenge: "" },
+                ]
+            },
+            // wRONG answers only category
+            // TRIVIA
+            // SNAP THAT
+            // IMPRESSIONS
+            {
+                name: "WRONG ANSWERS ONLY",
+                challenges: [
+                        { value: 100, challenge: ""  },
+                        { value: 200, challenge: "What color is the square?", image: "https://diegocasillas.org/wp-content/uploads/2026/02/purple-square.png" }, // i can fix this now: fixed
+                        { value: 300, challenge: "What's doesn't this word say? UNPLUGGED" },
+                        { value: 400, challenge: "" },
+                        { value: 500, challenge: "" }
+                ]
+            },
+            {
+                name: "T-SWIFT OR THE BIBLE?",
+                challenges: [
+                    { value: 100, challenge: "Who said this? 'I shake it off, I shake it off'" }, // shake it off lyric
+                    { value: 200, challenge: "Who said this? 'The Lord is my shepherd; I shall not want.'" }, // psalm 23:1
+                    { value: 300, challenge: "Who said this? 'You belong with me'" }, // you belong with me lyric
+                    { value: 400, challenge: "Who said this? 'For God so loved the world that he gave his one and only Son'" }, // john 3:16
+                    { value: 500, challenge: "Who said this? 'Cause darling I'm a nightmare dressed like a daydream'" } // blank space lyric
+                ]
+            },
+
+        ];
+
+        let gameState = {
+            score: 0,
+            used: new Set(),
+            currentQuestion: null,
+              answered: false,
+              totalQuestions: 0
+        };
+
+        function initGame() {
+            gameState.score = 0;
+            gameState.used.clear();
+            gameState.answered = false;
+            document.getElementById('gameOverScreen').innerHTML = '';
+            createBoard();
+            updateScore();
+        }
+
+        function createBoard() {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+                const columns = CATEGORIES.length;
+                const rows = Math.max(
+                    0,
+                    ...CATEGORIES.map(category => (category.challenges ? category.challenges.length : 0))
+                );
+                gameState.totalQuestions = CATEGORIES.reduce((sum, category) => {
+                    const count = category.challenges ? category.challenges.filter(Boolean).length : 0;
+                    return sum + count;
+                }, 0);
+                board.style.setProperty('--board-columns', columns);
+
+            // Add category headers
+            CATEGORIES.forEach(category => {
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.textContent = category.name;
+                board.appendChild(header);
+            });
+
+            // Add question boxes (5 per category)
+                // Add question boxes based on category data
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < columns; col++) {
+                    const box = document.createElement('button');
+                    box.className = 'box';
+                        const category = CATEGORIES[col];
+                        const challenge = category && category.challenges ? category.challenges[row] : null;
+                        const value = challenge && typeof challenge.value === 'number'
+                            ? challenge.value
+                            : (row + 1) * 100;
+                    const id = `${row}-${col}`;
+                    box.dataset.id = id;
+                        box.textContent = challenge ? value : '-';
+                        if (challenge) {
+                            box.onclick = () => openQuestion(row, col, box);
+                        } else {
+                            box.disabled = true;
+                            box.classList.add('used');
+                        }
+                    board.appendChild(box);
+                }
+            }
+        }
+
+        function openQuestion(row, col, boxElement) {
+            const id = `${row}-${col}`;
+            if (gameState.used.has(id)) return;
+
+            const category = CATEGORIES[col];
+                const challenge = category && category.challenges ? category.challenges[row] : null;
+                if (!challenge) return;
+            gameState.currentQuestion = {
+                id,
+                box: boxElement,
+                    data: challenge,
+                row,
+                col
+                };
+            gameState.answered = false;
+            document.getElementById('questionText').textContent = gameState.currentQuestion.data.challenge;
+            document.getElementById('questionModal').classList.add('active');
+            document.getElementById('challengeImage').style.display = 'none';
+            if (gameState.currentQuestion.data.image) {
+                const imgElement = document.getElementById('challengeImage');
+                imgElement.src = gameState.currentQuestion.data.image;
+                imgElement.style.display = 'block';
+            }
+        }
+
+        function markAccepted() {
+            if (!gameState.currentQuestion) return;
+            gameState.score += gameState.currentQuestion.data.value;
+            updateScore();
+            closeQuestion();
+        }
+
+        function markRejected() {
+            if (!gameState.currentQuestion) {
+                document.getElementById('questionModal').classList.remove('active');
+                return;
+            }
+            closeQuestion();
+        }
+
+        function closeQuestion() {
+            if (!gameState.currentQuestion) return;
+            const id = gameState.currentQuestion.id;
+            gameState.used.add(id);
+            gameState.currentQuestion.box.classList.add('used');
+            gameState.currentQuestion.box.disabled = true;
+            document.getElementById('questionModal').classList.remove('active');
+
+            // Check if game is over
+            if (gameState.used.size >= gameState.totalQuestions) {
+                endGame();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = Math.max(0, gameState.score);
+        }
+
+        function endGame() {
+            const gameOverScreen = document.getElementById('gameOverScreen');
+            gameOverScreen.innerHTML = `
+                <div class="game-over">
+                    <h2>GAME OVER!</h2>
+                    <p>Final Points:</p>
+                    <div class="final-score">${Math.max(0, gameState.score)}</div>
+                    <button class="btn-play-again" onclick="initGame()">Play Again</button>
+                </div>
+            `;
+        }
+
+        // Start the game on page load
+        initGame();
+    </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
